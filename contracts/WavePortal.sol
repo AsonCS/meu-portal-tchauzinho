@@ -6,6 +6,7 @@ import "hardhat/console.sol";
 
 contract WavePortal {
     constructor() {
-        console.log("Ueba, eu sou um contrato e eu sou inteligente");
+		uint _test = uint(keccak256("wow"));
+        console.log("Vamos ver se no que da: '%s'", _test);
     }
 }
