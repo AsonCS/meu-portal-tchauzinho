@@ -27,6 +27,19 @@ task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
 const config: HardhatUserConfig = {
 	solidity: '0.8.0',
 	networks: {
+		rinkeby: {
+			url: process.env.RINKEBY_URL,
+			accounts: [process.env.PRIVATE_KEY || '']
+		},
+	}
+}
+
+export default config
+
+/*
+const config: HardhatUserConfig = {
+	solidity: '0.8.0',
+	networks: {
 		ropsten: {
 			url: process.env.ROPSTEN_URL || '',
 			accounts:
@@ -41,5 +54,4 @@ const config: HardhatUserConfig = {
 		apiKey: process.env.ETHERSCAN_API_KEY,
 	},
 }
-
-export default config
+*/
