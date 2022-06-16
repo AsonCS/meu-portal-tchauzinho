@@ -23,3 +23,17 @@ main().catch((error) => {
 	console.error(error)
 	process.exitCode = 1
 })
+
+/*
+SOME0=WavePortal 1.0
+SOME1=No need to generate any newer typings.
+SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
+SOME3=Account balance:  25000000000000000
+SOME4=WavePortal address:  0x6422748a7dcC81F729d29904150bFd5c7D526faf
+
+SOME0=WavePortal 1.0
+SOME1=No need to generate any newer typings.
+SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
+SOME3=Account balance:  23947890993537776
+SOME4=WavePortal address:  0x602eec643c68Fe7083Bd0CB84d50838798b16631
+*/
