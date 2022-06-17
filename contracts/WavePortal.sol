@@ -24,7 +24,7 @@ contract WavePortal {
 	mapping(address => uint256) private wavesMap;
 	Wave[] private waves;
 
-    constructor() {
+    constructor() payable {
         console.log("New WavePortal");
     }
 
@@ -41,19 +41,31 @@ contract WavePortal {
 
 		Wave memory wave = waves[wavesMap[msg.sender] - 1];
 		emit NewWave(wave.user, wave.messages, wave.likes, wave.timestamp);
+
+		uint256 number = block.timestamp % 17;
+		// console.log("Number", number);
+		if (number == 0) {
+			uint256 prizeAmount = 0.0001 ether;
+			require(
+				prizeAmount <= address(this).balance,
+				"Not enough balance"
+			);
+			(bool success, ) = msg.sender.call{value: prizeAmount}("");
+			require(success, "Transfer insucceful");
+		}		
 	}
 
-	function doLike() public {
-		// console.log("like | sender: %s", msg.sender);
-		if (wavesMap[msg.sender] == 0) {
-			wavesMap[msg.sender] = waves.length + 1;
+	function doLike(address _likedUser) public {
+		// console.log("like | sender: %s", _likedUser);
+		if (wavesMap[_likedUser] == 0) {
+			wavesMap[_likedUser] = waves.length + 1;
 			string[] memory _messages;
-			waves.push(Wave(msg.sender, 1, _messages, 0, block.timestamp));
+			waves.push(Wave(_likedUser, 1, _messages, 0, block.timestamp));
 		}
 
-		waves[wavesMap[msg.sender] - 1].likes += 1;
+		waves[wavesMap[_likedUser] - 1].likes += 1;
 
-		Wave memory wave = waves[wavesMap[msg.sender] - 1];
+		Wave memory wave = waves[wavesMap[_likedUser] - 1];
 		emit NewWave(wave.user, wave.messages, wave.likes, wave.timestamp);
 	}
 

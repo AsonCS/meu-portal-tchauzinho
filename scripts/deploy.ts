@@ -12,11 +12,13 @@ async function main() {
 	console.log('Account balance: ', accountBalance.toString())
 
 	// eslint-disable-next-line camelcase
-	const Token: WavePortal__factory = await ethers.getContractFactory('WavePortal')
-	const portal: WavePortal = await Token.deploy()
-	await portal.deployed()
+	const waveContractFactory: WavePortal__factory = await ethers.getContractFactory('WavePortal')
+	const waveContract: WavePortal = await waveContractFactory.deploy({
+		value: ethers.utils.parseEther('0.001'),
+	})
+	await waveContract.deployed()
 
-	console.log('WavePortal address: ', portal.address)
+	console.log('WavePortal address: ', waveContract.address)
 }
 
 main().catch((error) => {
@@ -31,9 +33,15 @@ SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eD
 SOME3=Account balance:  25000000000000000
 SOME4=WavePortal address:  0x6422748a7dcC81F729d29904150bFd5c7D526faf
 
-SOME0=WavePortal 1.0
+SOME0=WavePortal 2.0
 SOME1=No need to generate any newer typings.
 SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
 SOME3=Account balance:  23947890993537776
 SOME4=WavePortal address:  0x602eec643c68Fe7083Bd0CB84d50838798b16631
+
+SOME0=WavePortal 3.0
+SOME1=No need to generate any newer typings.
+SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
+SOME3=Account balance:  21689408480928912
+SOME4=WavePortal address:  0x9295E4D1c8625Bd3741683EA57b3Ee05Bd199cef
 */

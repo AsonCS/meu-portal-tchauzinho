@@ -9,22 +9,32 @@ async function main() {
 	const [owner, randomPerson, anotherRandomPerson] = await ethers.getSigners()
 	// eslint-disable-next-line camelcase
 	const waveContractFactory: WavePortal__factory = await ethers.getContractFactory('WavePortal')
-	const waveContract: WavePortal = await waveContractFactory.deploy()
+	const waveContract: WavePortal = await waveContractFactory.deploy({
+		value: ethers.utils.parseEther('0.1'),
+	})
 	await waveContract.deployed()
 
 	console.log('Contract deployed to:', waveContract.address)
 	console.log('Contract deployed by:', owner.address)
+
+	let contractBalance = await ethers.provider.getBalance(
+		waveContract.address
+	)
+	console.log(
+		'Saldo do contrato:',
+		ethers.utils.formatEther(contractBalance)
+	)
 	
 	// By owner
 	let waveTxn: ContractTransaction = await waveContract.doWave('Mensagem 1')
 	await waveTxn.wait()
 	waveTxn = await waveContract.doWave('Mensagem 2')
 	await waveTxn.wait()
-	waveTxn = await waveContract.doLike()
+	waveTxn = await waveContract.doLike(randomPerson.address)
 	await waveTxn.wait()
-	waveTxn = await waveContract.doLike()
+	waveTxn = await waveContract.doLike(anotherRandomPerson.address)
 	await waveTxn.wait()
-	waveTxn = await waveContract.doLike()
+	waveTxn = await waveContract.doLike(anotherRandomPerson.address)
 	await waveTxn.wait()
 
 	const randomMessage = Math.random() * 50
@@ -37,7 +47,7 @@ async function main() {
 		await waveTxn.wait()
 	}
 	for(let i = 0; i < randomLikes; i++) {
-		waveTxn = await wavePortal.doLike()
+		waveTxn = await wavePortal.doLike(owner.address)
 		await waveTxn.wait()
 	}
 
@@ -48,9 +58,17 @@ async function main() {
 		await waveTxn.wait()
 	}
 	for(let i = 0; i < randomLikes; i++) {
-		waveTxn = await wavePortal.doLike()
+		waveTxn = await wavePortal.doLike(randomPerson.address)
 		await waveTxn.wait()
 	}
+
+	contractBalance = await ethers.provider.getBalance(
+		waveContract.address
+	)
+	console.log(
+		'Saldo do contrato:',
+		ethers.utils.formatEther(contractBalance)
+	)
 
 	const allWaves = await waveContract.getAllWaves()
 	console.log(allWaves)
