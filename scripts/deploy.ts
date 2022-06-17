@@ -14,7 +14,7 @@ async function main() {
 	// eslint-disable-next-line camelcase
 	const waveContractFactory: WavePortal__factory = await ethers.getContractFactory('WavePortal')
 	const waveContract: WavePortal = await waveContractFactory.deploy({
-		value: ethers.utils.parseEther('0.001'),
+		value: ethers.utils.parseEther('0.01'),
 	})
 	await waveContract.deployed()
 
@@ -44,4 +44,10 @@ SOME1=No need to generate any newer typings.
 SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
 SOME3=Account balance:  21689408480928912
 SOME4=WavePortal address:  0x9295E4D1c8625Bd3741683EA57b3Ee05Bd199cef
+
+SOME0=WavePortal 4.0
+SOME1=No need to generate any newer typings.
+SOME2=Deploying contracts with account:  0x7e4d9Fc4bdec1fe100F60041C372270F0E2eDD97
+SOME3=Account balance:  16943628946478410
+SOME4=WavePortal address:  0x06380A711Cc060581E8c78759e83e0f4ddd82B13
 */

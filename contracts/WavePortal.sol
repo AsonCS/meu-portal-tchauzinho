@@ -26,11 +26,13 @@ contract WavePortal {
 
     constructor() payable {
         console.log("New WavePortal");
+		console.log("Time", 15 minutes + block.timestamp);
     }
 
 	function doWave(string memory _message) public {
 		// console.log("wave | sender: %s", msg.sender);
 		// console.log("wave | _message: %s", _message);
+
 		if (wavesMap[msg.sender] == 0) {
 			wavesMap[msg.sender] = waves.length + 1;
 			string[] memory _messages;
@@ -42,7 +44,7 @@ contract WavePortal {
 		Wave memory wave = waves[wavesMap[msg.sender] - 1];
 		emit NewWave(wave.user, wave.messages, wave.likes, wave.timestamp);
 
-		uint256 number = block.timestamp % 17;
+        uint256 number =(block.difficulty + block.timestamp) % 17;
 		// console.log("Number", number);
 		if (number == 0) {
 			uint256 prizeAmount = 0.0001 ether;
@@ -50,9 +52,9 @@ contract WavePortal {
 				prizeAmount <= address(this).balance,
 				"Not enough balance"
 			);
-			(bool success, ) = msg.sender.call{value: prizeAmount}("");
+			(bool success, ) = (msg.sender).call{value: prizeAmount}("");
 			require(success, "Transfer insucceful");
-		}		
+		}
 	}
 
 	function doLike(address _likedUser) public {
@@ -117,6 +119,18 @@ contract WavePortal {
 		}
 
 		function wave() public {
+			/*
+			* Precisamos garantir que o valor corrente de timestamp é ao menos 15 minutos maior que o último timestamp armazenado
+			* /
+			mapping(address => uint256) public lastWavedAt;
+			require(
+				lastWavedAt[msg.sender] + 15 minutes < block.timestamp,
+				"Espere 15m"
+			);
+			/*
+			* Atualiza o timestamp atual do usuário
+			* /
+			lastWavedAt[msg.sender] = block.timestamp;
 			if (wavesByUser[msg.sender] == 0) {
 				users.push(msg.sender);
 			}
